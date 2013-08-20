@@ -1,0 +1,60 @@
+=========================================================================
+The Pronounce
+=========================================================================
+
+A command line interface for English words pronunciation.
+This program retrieves pronunciation files from the Meriam Webster
+Online Dictionary which are publicly available to be downloaded
+and plays them automatically.
+
+This command downloads the pronunciation WAV files via "wget", stores them
+locally in the "~/pronunciation.wavs" folder, and plays them via "ffplay".
+
+=========================================================================
+Usage
+=========================================================================
+Add the "pronounce" script to your path (for example, copy it in the
+/usr/bin folder). Then run it as follows:
+-------
+Mode 1:   pronounce <word>
+-------
+To listen the default pronunciation of a word, for example "live", as
+found on the Web, type:
+  pronounce live
+  
+-------
+Mode 2:   pronounce <word> <number>
+-------
+To listen the i-th available pronunciation of a word, for example the 2nd
+pronunciation of "live" (which has different pronunciations as noun and
+verb), type:
+  pronounce live 2
+  
+-------
+Mode 3:   pronounce <word> f
+-------
+To open the given word's definition page, e.g. live, in "firefox", type:
+  pronounce live f
+  
+This mode, internally runs the following command:
+  firefox "http://www.merriam-webster.com/dictionary/live"
+
+
+=========================================================================
+License
+=========================================================================
+    Copyright © 2013  Behnam Momeni
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see {http://www.gnu.org/licenses/}.
+
