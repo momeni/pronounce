@@ -11,10 +11,17 @@ This command downloads the pronunciation WAV files via "wget", stores them
 locally in the "~/pronunciation.wavs" folder, and plays them via "ffplay".
 
 =========================================================================
+Install
+=========================================================================
+Copy the "pronounce" script somewhere in your path, for example in
+the /usr/bin folder.
+Create the "~/pronunciation.wavs" folder.
+And install the "ffplay" (usually comes with the "ffmpeg" package).
+
+=========================================================================
 Usage
 =========================================================================
-Add the "pronounce" script to your path (for example, copy it in the
-/usr/bin folder). Then run it as follows:
+You can run pronounce in 3 modes.
 -------
 Mode 1:   pronounce <word>
 -------
