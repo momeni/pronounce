@@ -21,7 +21,7 @@ And install the "ffplay" (usually comes with the "ffmpeg" package).
 =========================================================================
 Usage
 =========================================================================
-You can run pronounce in 3 modes.
+You can run pronounce in 4 modes.
 -------
 Mode 1:   pronounce <word>
 -------
@@ -44,8 +44,17 @@ To open the given word's definition page, e.g. live, in "firefox", type:
   pronounce live f
   
 This mode, internally runs the following command:
-  firefox "http://www.merriam-webster.com/dictionary/live"
+  firefox "http://www.merriam-webster.com/dictionary/live#headword"
 
+-------
+Mode 4:   pronounce <word> w
+-------
+To open the given word's definition page, e.g. live, in "w3m" command line
+browser, type:
+  pronounce live w
+  
+This mode, internally runs the following command:
+  w3m "http://www.merriam-webster.com/dictionary/live#headword"
 
 =========================================================================
 License

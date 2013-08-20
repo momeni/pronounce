@@ -56,7 +56,9 @@ function search {
 if [ "a$2" = "a" ]; then
 	main $1 1
 elif [ "$2" = "f" ]; then
-	firefox "http://www.merriam-webster.com/dictionary/$1"
+	firefox "http://www.merriam-webster.com/dictionary/$1#headword"
+elif [ "$2" = "w" ]; then
+	w3m "http://www.merriam-webster.com/dictionary/$1#headword"
 else
 	main $1 $2
 fi
