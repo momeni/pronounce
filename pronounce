@@ -1,0 +1,63 @@
+#!/bin/bash
+
+echo "The pronounce: Frontend for English Words Pronunciation"
+echo "Copyright © 2013  Behnam Momeni"
+echo "This program comes with ABSOLUTELY NO WARRANTY."
+echo "This is free software, and you are welcome to redistribute it under"
+echo "certain conditions. For details, see the LICENSE file."
+echo
+echo "This frontend sends Web requests to Meriam Webster Online Dictionary"
+echo "as its backend."
+echo
+
+function main {
+	word="$1"
+	number=$2
+	cd ~/pronunciation.wavs/
+	if [ -s "$(search ${word}-${number}\\.wav)" ]; then
+		echo "Pronunciation exists locally!";
+	else
+		echo "Downloading pronunciation";
+		url=$(get_url $word $number)
+		if [ -n "$(download $url ${word}-${number}.wav)" ]; then
+			echo "Downloaded."
+    else
+			exit -1;
+		fi
+	fi
+	if [ $(search ${word}-${number}\\.wav) ]; then
+		ffplay ${word}-${number}.wav
+	fi
+}
+
+function get_url {
+	word=$1
+	number=$2
+	url="$(printf "http://media.merriam-webster.com/soundc11/%.1s/%-6.6s%2s.wav" $word $word $number | sed 's/\ /0/g')"
+	echo $url
+}
+
+function download {
+	url=$1
+	dest=$2
+	wget "$url" -O $dest
+	if [ -s $dest ]; then
+		echo "Downloaded.";
+	else
+		rm $dest
+	fi
+}
+
+function search {
+	token=$1
+	echo $(ls | grep "^$token$")
+}
+
+if [ "a$2" = "a" ]; then
+	main $1 1
+elif [ "$2" = "f" ]; then
+	firefox "http://www.merriam-webster.com/dictionary/$1"
+else
+	main $1 $2
+fi
+
