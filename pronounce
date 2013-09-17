@@ -16,7 +16,7 @@ function main {
 	number=$2
 	check_cache_folder
 	cd ~/pronunciation.wavs/
-	if [ -s "$(search ${word}-${number}\\.wav)" ]; then
+	if [ -s "${word}-${number}.wav" ]; then
 		echo "Pronunciation exists locally!";
 	else
 		echo "Downloading pronunciation";
@@ -57,11 +57,6 @@ function download {
 		rm $dest
 		exit -1
 	fi
-}
-
-function search {
-	token=$1
-	echo $(ls | grep "^$token$")
 }
 
 function run_external_program {
