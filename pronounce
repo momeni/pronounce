@@ -1,11 +1,12 @@
 #!/bin/bash
 
+echo -e "\e[0;32m"
 echo "The pronounce: Frontend for English Words Pronunciation"
 echo "Copyright © 2013  Behnam Momeni"
 echo "This program comes with ABSOLUTELY NO WARRANTY."
 echo "This is free software, and you are welcome to redistribute it under"
 echo "certain conditions. For details, see the LICENSE file."
-echo
+echo -e "\e[0m"
 echo "This frontend sends Web requests to Meriam Webster Online Dictionary"
 echo "as its backend."
 echo
@@ -13,9 +14,22 @@ echo
 function main {
 	word="$1"
 	number=$2
+	check_cache_folder
+	cd ~/pronunciation.wavs/
+	if [ -s "$(search ${word}-${number}\\.wav)" ]; then
+		echo "Pronunciation exists locally!";
+	else
+		echo "Downloading pronunciation";
+		url=$(get_url $word $number)
+		download $url ${word}-${number}.wav
+	fi
+	run_external_program ffplay ${word}-${number}.wav
+}
+
+function check_cache_folder {
 	if [ ! -d ~/pronunciation.wavs ]; then
 		if [ -e ~/pronunciation.wavs ]; then
-			echo -e "\e[1;31m"
+			echo -e "\e[0;31m"
 			echo "The pronounce program requires ~/pronunciation.wavs as a cache folder."
 			echo "But that name is already used by a file!"
 			echo "Please rename/remove/backup it and run pronounce again."
@@ -23,21 +37,6 @@ function main {
 			exit -1
 		fi
 		mkdir ~/pronunciation.wavs
-	fi
-	cd ~/pronunciation.wavs/
-	if [ -s "$(search ${word}-${number}\\.wav)" ]; then
-		echo "Pronunciation exists locally!";
-	else
-		echo "Downloading pronunciation";
-		url=$(get_url $word $number)
-		if [ -n "$(download $url ${word}-${number}.wav)" ]; then
-			echo "Downloaded."
-    else
-			exit -1;
-		fi
-	fi
-	if [ $(search ${word}-${number}\\.wav) ]; then
-		ffplay ${word}-${number}.wav
 	fi
 }
 
@@ -51,11 +50,12 @@ function get_url {
 function download {
 	url=$1
 	dest=$2
-	wget "$url" -O $dest
+	run_external_program wget "$url" -O $dest
 	if [ -s $dest ]; then
-		echo "Downloaded.";
+		echo "Downloaded."
 	else
 		rm $dest
+		exit -1
 	fi
 }
 
@@ -64,12 +64,26 @@ function search {
 	echo $(ls | grep "^$token$")
 }
 
+function run_external_program {
+	program=$1
+	shift
+	argument=$@
+	if which $program >/dev/null 2>&1; then
+		echo -e "Running: \e[1;34m $program $argument \e[0;0m"
+		$program $argument
+	else
+		echo -e "\e[0;31m Program \"$program\" is not installed! \e[0m";
+		exit -1
+	fi
+
+}
+
 if [ "a$2" = "a" ]; then
 	main $1 1
 elif [ "$2" = "f" ]; then
-	firefox "http://www.merriam-webster.com/dictionary/$1#headword"
+	run_external_program firefox "http://www.merriam-webster.com/dictionary/$1#headword"
 elif [ "$2" = "w" ]; then
-	w3m "http://www.merriam-webster.com/dictionary/$1#headword"
+	run_external_program w3m "http://www.merriam-webster.com/dictionary/$1#headword"
 else
 	main $1 $2
 fi
