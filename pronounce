@@ -75,7 +75,7 @@ function run_external_program {
 
 }
 
-if [ "$1" = "-h" ]; then
+function print_usage {
 	echo -e "Usage: \e[1;33m"
 	echo -e "\t<word>          Plays 1st pronunciation of <word>"
 	echo -e "\t<word> <num>    Plays <num>-th pronunciation of <word>"
@@ -85,6 +85,9 @@ if [ "$1" = "-h" ]; then
 	echo -e "\t-v              Prints version"
 	echo -e "\t-h              Prints this message"
 	echo -e "\e[0m"
+}
+if [ "$1" = "-h" -o "a$1" = "a" ]; then
+	print_usage
 elif [ "$1" = "-c" ]; then
 	echo "Purging the cache"
 	rm -f ~/pronunciation.wavs/*
