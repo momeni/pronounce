@@ -1,51 +1,51 @@
 #!/bin/bash
 
-PRONOUNCE_VERSION="1.1.0"
+PRONOUNCE_VERSION="1.2.0"
 
 echo -e "\e[0;32m"
 echo "The pronounce: Frontend for English Words Pronunciation"
-echo "Copyright © 2013  Behnam Momeni"
+echo "Copyright © 2013-2022  Behnam Momeni"
 echo "This program comes with ABSOLUTELY NO WARRANTY."
 echo "This is free software, and you are welcome to redistribute it under"
 echo "certain conditions. For details, see the LICENSE file."
 echo -e "\e[0m"
-echo "This frontend sends Web requests to Meriam Webster Online Dictionary"
-echo "as its backend."
+echo "This frontend sends Web requests to the www.dictionary.com Online"
+echo "Dictionary as its backend."
 echo
 
 function main {
 	word="$1"
 	number=$2
 	check_cache_folder
-	cd ~/pronunciation.wavs/
-	if [ -s "${word}-${number}.wav" ]; then
+	cd ~/pronunciation.ogg/
+	if [ -s "${word}-${number}.ogg" ]; then
 		echo "Pronunciation exists locally!";
 	else
 		echo "Downloading pronunciation";
 		url=$(get_url $word $number)
-		download $url ${word}-${number}.wav
+		download $url ${word}-${number}.ogg
 	fi
-	run_external_program ffplay ${word}-${number}.wav
+	run_external_program ffplay ${word}-${number}.ogg
 }
 
 function check_cache_folder {
-	if [ ! -d ~/pronunciation.wavs ]; then
-		if [ -e ~/pronunciation.wavs ]; then
+	if [ ! -d ~/pronunciation.ogg ]; then
+		if [ -e ~/pronunciation.ogg ]; then
 			echo -e "\e[0;31m"
-			echo "The pronounce program requires ~/pronunciation.wavs as a cache folder."
+			echo "The pronounce program requires ~/pronunciation.ogg as a cache folder."
 			echo "But that name is already used by a file!"
 			echo "Please rename/remove/backup it and run pronounce again."
 			echo -e "\e[0m"
 			exit -1
 		fi
-		mkdir ~/pronunciation.wavs
+		mkdir ~/pronunciation.ogg
 	fi
 }
 
 function get_url {
 	word=$1
 	number=$2
-	url="$(printf "http://media.merriam-webster.com/soundc11/%.1s/%-6.6s%2s.wav" $word $word $number | sed 's/\ /0/g')"
+  url="$(curl https://www.dictionary.com/browse/$word | sed 's!\(<audio[^>]*>\|</audio>\)!\n\1\n!g' | grep '<source' | sed 's|src="\([^"]*\)"|\n\1\n|g' | grep 'https://.*ogg' | tail -n+$number | head -n1)"
 	echo $url
 }
 
@@ -90,15 +90,15 @@ if [ "$1" = "-h" -o "a$1" = "a" ]; then
 	print_usage
 elif [ "$1" = "-c" ]; then
 	echo "Purging the cache"
-	rm -f ~/pronunciation.wavs/*
+	rm -f ~/pronunciation.ogg/*
 elif [ "$1" = "-v" ]; then
 	echo "Version: $PRONOUNCE_VERSION"
 elif [ "a$2" = "a" ]; then
 	main $1 1
 elif [ "$2" = "f" ]; then
-	run_external_program firefox "http://www.merriam-webster.com/dictionary/$1#headword"
+	run_external_program firefox "https://www.dictionary.com/browse/$1"
 elif [ "$2" = "w" ]; then
-	run_external_program w3m "http://www.merriam-webster.com/dictionary/$1#headword"
+	run_external_program w3m "https://www.dictionary.com/browse/$1"
 else
 	main $1 $2
 fi

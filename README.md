@@ -2,17 +2,17 @@
 
 A command line interface for English words pronunciation.
 
-This program retrieves pronunciation files from the [Meriam Webster
-Online Dictionary](http://www.merriam-webster.com/), which are publicly available to be downloaded
-and plays them automatically.
-This command downloads the pronunciation WAV files via [wget](http://www.gnu.org/software/wget/), stores them
-locally in the **~/pronunciation.wavs** folder, and plays them via [ffplay](http://ffmpeg.org/ffplay.html).
+This program retrieves pronunciation files from the [dictionary.com]
+(https://www.dictionary.com/) website, which are publicly available
+to be downloaded and plays them automatically.
+This command downloads the pronunciation OGG files via [wget](http://www.gnu.org/software/wget/), stores them
+locally in the **~/pronunciation.ogg** folder, and plays them via [ffplay](http://ffmpeg.org/ffplay.html).
 
 ##Installation
 
 1. Copy the _pronounce_ script somewhere in your path, for example in
 the **/usr/bin** folder.
-2. Create the **~/pronunciation.wavs** folder.
+2. Create the **~/pronunciation.ogg** folder.
 3. And install the [ffplay](http://ffmpeg.org/ffplay.html) (usually comes with the _ffmpeg_ package).
 
 ##Usage
@@ -39,7 +39,7 @@ You can run pronounce in 4 modes.
   
    This mode, internally runs the following command:
 
-        firefox "http://www.merriam-webster.com/dictionary/live#headword"
+        firefox "https://www.dictionary.com/browse/live"
 
  * Mode 4: _pronounce <word> w_
 
@@ -49,10 +49,10 @@ You can run pronounce in 4 modes.
 
    This mode, internally runs the following command:
 
-        w3m "http://www.merriam-webster.com/dictionary/live#headword"
+        w3m "https://www.dictionary.com/browse/live"
 
 ##License
-    Copyright © 2013  Behnam Momeni
+    Copyright © 2013-2022  Behnam Momeni
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
