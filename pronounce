@@ -46,7 +46,7 @@ function check_cache_folder {
 function get_url {
 	word=$1
 	number=$2
-  url="$(curl https://www.dictionary.com/browse/$word | sed 's!\(<audio[^>]*>\|</audio>\)!\n\1\n!g' | grep '<source' | sed 's|src="\([^"]*\)"|\n\1\n|g' | grep 'https://.*ogg' | tail -n+$number | head -n1)"
+  url="$(curl -L https://www.dictionary.com/browse/$word | sed 's!\(<audio[^>]*>\|</audio>\)!\n\1\n!g' | grep '<source' | sed 's|src="\([^"]*\)"|\n\1\n|g' | grep 'https://.*ogg' | tail -n+$number | head -n1)"
 	echo $url
 }
 
