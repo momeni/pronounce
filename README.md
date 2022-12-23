@@ -1,4 +1,4 @@
-#The Pronounce
+# The Pronounce
 
 A command line interface for English words pronunciation.
 
@@ -8,14 +8,14 @@ to be downloaded and plays them automatically.
 This command downloads the pronunciation OGG files via [wget](http://www.gnu.org/software/wget/), stores them
 locally in the **~/.cache/pronunciation.ogg** folder, and plays them via [ffplay](http://ffmpeg.org/ffplay.html).
 
-##Installation
+## Installation
 
 1. Copy the _pronounce_ script somewhere in your path, for example in
 the **/usr/bin** folder.
 2. Create the **~/.cache/pronunciation.ogg** folder.
 3. And install the [ffplay](http://ffmpeg.org/ffplay.html) (usually comes with the _ffmpeg_ package).
 
-##Usage
+## Usage
 
 You can run pronounce in 4 modes.
 
@@ -51,7 +51,8 @@ You can run pronounce in 4 modes.
 
         w3m "https://www.dictionary.com/browse/live"
 
-##License
+## License
+
     Copyright © 2013-2022  Behnam Momeni
 
     This program is free software: you can redistribute it and/or modify
